@@ -1,17 +1,17 @@
 #include <iostream>
 using namespace std;
 
-#define HEIGHT(N) (N == NULL ? 0 : N->height);
-#define MAX(A, B) (A > B ? A : B);
+#define HEIGHT(N) (N == NULL ? 0 : N->height)
+#define MAX(A, B) (A > B ? A : B)
 
 struct node{
     int value;
-    int height = 0;
+    int height;
     struct node *left;
     struct node *right;
 };
 
-void left_rotate(struct node *n){
+struct node *left_rotate(struct node *n){
     struct node *tmp = n->left;
     n->left = tmp->right;
     tmp->right = n;
@@ -22,7 +22,7 @@ void left_rotate(struct node *n){
     return tmp;
 }
 
-void right_rotate(struct node *n){
+struct node *right_rotate(struct node *n){
     struct node *tmp = n->right;
     n->right = tmp->left;
     tmp->left = n;
@@ -33,17 +33,17 @@ void right_rotate(struct node *n){
     return tmp;
 }
 
-inline void left_right_rotate(struct node *n){
+inline struct node * left_right_rotate(struct node *n){
     n->right = left_rotate(n->right);
     return right_rotate(n);
 }
 
-inline void right_left_rotate(struct node *n){
+inline struct node * right_left_rotate(struct node *n){
     n->left = right_rotate(n->left);
     return left_rotate(n);
 }
 
-void insert_node(struct node *root, struct node *now){
+struct node * insert_node(struct node *root, struct node *now){
     if(root == NULL) return now;
     if(root->value > now->value){
         root->right = insert_node(root->right, now);
@@ -68,7 +68,7 @@ void insert_node(struct node *root, struct node *now){
     return root;
 }
 
-void init_tree(struct node *root){
+struct node *init_tree(struct node *root){
     int in;
     struct node *tmp;
     cout << "Input nums:(end by 0)" << endl;
@@ -84,7 +84,7 @@ void init_tree(struct node *root){
         tmp->height = 0;
         tmp->left = NULL;
         tmp->right = NULL;
-        insert_node(root, tmp, root->height);
+        insert_node(root, tmp);
     }
     cout << "Input end" << endl;
     return root;
@@ -117,7 +117,7 @@ bool is_balance(struct node *root, int *depth){
 
     int diff = left_depth - right_depth;
     if(diff > 1 || diff < -1) return false;
-    depth = 1 + max(left_depth, right_depth);
+    *depth = 1 + max(left_depth, right_depth);
     return true;
 }
 
@@ -139,7 +139,7 @@ class Single{
         static Single * _instance;
 };
 
-Single * Single::instance(){
+inline Single * Single::instance(){
     if(_instance == NULL){
         _instance = new Single();
     }
@@ -150,7 +150,8 @@ int main(){
     struct node *root = NULL;
     init_tree(root);
     print_tree(root);
-    cout << "is balance:" << is_balance(root) << endl;
+    int h = 0;
+    cout << "is balance:" << is_balance(root, &h) << endl;
     cout << "is balance1:" << is_balance1(root) << endl;
 
 }
