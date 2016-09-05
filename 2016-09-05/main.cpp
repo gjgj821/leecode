@@ -21,7 +21,7 @@ struct node* build_tree(int *pre_list, int *in_list, int n){
     struct node* root = new struct node();
     root->value = pre_list[0];
     int left, right, i = 0;
-    for(i = 0; i < n && in_list[i] == pre_list[0]; i++);
+    for(i = 0; i < n && in_list[i] != pre_list[0]; i++);
     left = i;
     right = n - i - 1; 
     root->left = build_tree(&pre_list[1], &in_list[0], left);
@@ -37,7 +37,6 @@ void print_tree(struct node *root){
     while(!q.empty()){  
         struct node *p = q.front();
         q.pop();
-        cout << "t";
         if(p == NULL){
             cout << " " << endl;
             continue;
