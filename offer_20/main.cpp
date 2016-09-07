@@ -1,22 +1,24 @@
 #include <iostream>
-#include <vector>
+#include <stack>
 using namespace std;
 
 
 // 定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。
-class Solution{
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+class Solution {
+    stack<pair<int, int> > s;
 public:
     void push(int value) {
-
+        s.push(pair<int, int>(value, s.empty() ? value : MIN(value, min())));
     }
     void pop() {
-
+        s.pop();
     }
     int top() {
-
+        return s.top().first;
     }
     int min() {
-
+        return s.top().second;
     }
 };
 
