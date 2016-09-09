@@ -2,10 +2,11 @@
 #include <vector>
 #include <queue>
 #include <stack>
-
+#include <algorithm>
 using std::vector;
 using std::queue;
 using std::stack;
+using std::max;
 struct TreeNode {
 	int val;
 	struct TreeNode *left;
@@ -20,8 +21,9 @@ class Solution {
 public:
     int TreeDepth(TreeNode* pRoot)
     {
-    
-    } 
+        if(pRoot == NULL) return 0;
+        return max(TreeDepth(pRoot->left), TreeDepth(pRoot->right)) + 1;
+    }
 };
 
 int main(){
